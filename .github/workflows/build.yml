@@ -34,8 +34,10 @@ jobs:
         with:
           file: "${{ matrix.img }}/Dockerfile"
           push: true
+          platforms: ${{ matrix.arch }}
           build-args: |
             GOARCH=${{ matrix.arch }}
             GOOS=${{ matrix.os }}
+            BUILDPLATFORM=linux/amd64
           tags: |
             ghcr.io/${{ github.repository }}/${{ matrix.img }}:latest
