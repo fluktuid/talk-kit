@@ -7,9 +7,6 @@ on:
 
 jobs:
   container:
-    concurrency:
-      group: ci-${{ github.workflow }}
-      cancel-in-progress: true
     strategy:
       matrix:
         img: [load, server]
