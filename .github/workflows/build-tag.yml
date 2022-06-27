@@ -33,7 +33,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: load/Dockerfile
+          file: "{context}/load/Dockerfile"
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/load:${{ env.RELEASE_VERSION }}
@@ -43,7 +43,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: server/Dockerfile
+          file: "{context}/server/Dockerfile"
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/server:${{ env.RELEASE_VERSION }}
