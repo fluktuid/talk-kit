@@ -8,8 +8,8 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/fluktuid/vortrag-kit-code/config"
-	"github.com/fluktuid/vortrag-kit-code/metrics"
+	"github.com/fluktuid/talk-kit/config"
+	"github.com/fluktuid/talk-kit/metrics"
 )
 
 func main() {

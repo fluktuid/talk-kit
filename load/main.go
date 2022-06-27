@@ -9,8 +9,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 
-	"github.com/fluktuid/vortrag-kit-code/config"
-	"github.com/fluktuid/vortrag-kit-code/metrics"
+	"github.com/fluktuid/talk-kit/config"
+	"github.com/fluktuid/talk-kit/metrics"
 )
 
 func getConfig() config.Load {
