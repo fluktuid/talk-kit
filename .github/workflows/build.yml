@@ -27,8 +27,7 @@ jobs:
         id: docker_build_ghcr_load
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: "{context}/load/Dockerfile"
+          file: "load/Dockerfile"
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/load:latest
@@ -37,8 +36,7 @@ jobs:
         id: docker_build_ghcr_server
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: "{context}/server/Dockerfile"
+          file: "server/Dockerfile"
           push: true
           tags: |
             ghcr.io/${{ github.repository }}/server:latest
