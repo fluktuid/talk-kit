@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: load
+  namespace: load
+data:
+  config.yml: |
+    ParallelRequests: 200
+    WaitMillisBetween: 1000
+    CallUrl: http://server.server.svc.cluster.local

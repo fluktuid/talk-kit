@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: load
+  namespace: load
+  labels:
+    app: caller
+spec:
+  selector:
+    matchLabels:
+      app: caller
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  caller
+      annotations:
+        configHash: ""
+    spec:
+      containers:
+      - name:  load
+        image:  ghcr.io/fluktuid/talk-kit/load:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 150m
+            memory: 20Mi
+          limits:
+            cpu: 1000m
+            memory: 250Mi
+        livenessProbe:
+          tcpSocket:
+            port: metrics
+          initialDelaySeconds: 1
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: metrics
+          initialDelaySeconds: 1
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 5
+        volumeMounts:
+        - name: config
+          mountPath: /etc/load
+        ports:
+        - containerPort: 2112
+          name:  metrics
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - caller
+              topologyKey: kubernetes.io/hostname
+      restartPolicy: Always
+      volumes:
+      - name: config
+        configMap:
+          name: load

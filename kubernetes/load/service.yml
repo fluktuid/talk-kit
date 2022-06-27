@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: load
+  labels:
+    app: caller
+  namespace: load
+spec:
+  selector:
+    app: caller
+  type: ClusterIP
+  sessionAffinity: None
+  ports:
+  - name: metrics
+    protocol: TCP
+    port: 2112
+    targetPort: metrics

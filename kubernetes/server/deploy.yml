@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  namespace: server
+  labels:
+    app: server
+spec:
+  selector:
+    matchLabels:
+      app: server
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  server
+    spec:
+      containers:
+      - name:  server
+        image:  ghcr.io/fluktuid/talk-kit/server:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 20Mi
+          limits:
+            cpu: 100m
+            memory: 50Mi
+        livenessProbe:
+          tcpSocket:
+            port: http
+          initialDelaySeconds: 1
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 1
+          periodSeconds: 5
+        readinessProbe:
+          tcpSocket:
+            port: http
+          initialDelaySeconds: 1
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 1
+          periodSeconds: 5
+        envFrom:
+        - configMapRef:
+            name: server
+        ports:
+        - containerPort:  8080
+          name:  http
+        - containerPort: 2112
+          name: metrics
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - server
+              topologyKey: kubernetes.io/hostname 
+      restartPolicy: Always
