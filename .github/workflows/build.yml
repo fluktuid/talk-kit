@@ -23,13 +23,22 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
       -
-        name: Build and push GHCR
+        name: Build and push GHCR load
         id: docker_build_ghcr
         uses: docker/build-push-action@v2
         with:
+          context: .
+          file: load/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}/load:latest
       -
-        name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+        name: Build and push GHCR server
+        id: docker_build_ghcr
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: server/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository }}/server:latest
