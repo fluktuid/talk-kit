@@ -7,6 +7,14 @@ on:
 
 jobs:
   container:
+    concurrency:
+      group: ci-${{ github.workflow }}
+      cancel-in-progress: true
+    strategy:
+      matrix:
+        img: [load, server]
+        arch: [amd64, arm, arm64]
+        os: [linux]
     runs-on: ubuntu-latest
     steps:
       -
@@ -27,16 +35,10 @@ jobs:
         id: docker_build_ghcr_load
         uses: docker/build-push-action@v2
         with:
-          file: "load/Dockerfile"
+          file: "${{ matrix.img }}/Dockerfile"
           push: true
+          build-args: |
+            GOARCH=${{ matrix.arch }}
+            GOOS=${{ matrix.os }}
           tags: |
-            ghcr.io/${{ github.repository }}/load:latest
-      -
-        name: Build and push GHCR server
-        id: docker_build_ghcr_server
-        uses: docker/build-push-action@v2
-        with:
-          file: "server/Dockerfile"
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}/server:latest
+            ghcr.io/${{ github.repository }}/${{ matrix.img }}:latest
