@@ -1,0 +1,14 @@
+prometheus:
+  url: http://prom-kube-prometheus-stack-prometheus.monitoring.svc.cluster.local
+  port: 9090
+metricsRelistInterval: 5s
+rules:
+  default: false
+  custom:
+  - seriesQuery: '{__name__=~"^server_processed_calls$"}'
+    resources:
+      template: <<.Resource>>
+    name:
+      matches: "server_processed_calls"
+      as: "server_requests_per_second"
+    metricsQuery: rate(server_processed_calls[15s])

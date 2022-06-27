@@ -1,0 +1,17 @@
+alertmanager:
+  enabled: false
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+    - grafana.l.k8s-lukas.atix-training.de
+  sidecar:
+    datasources:
+      defaultDatasourceScrapeInterval: 1s
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+    - prometheus.l.k8s-lukas.atix-training.de
