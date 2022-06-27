@@ -1,0 +1,35 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: load-selector
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: caller
+  namespaceSelector:
+    matchNames:
+      - load
+  podMetricsEndpoints:
+    - targetPort: 2112
+      path: /metrics
+      interval: 5s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: server-selector
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: server
+  namespaceSelector:
+    matchNames:
+      - server
+  podMetricsEndpoints:
+    - targetPort: 2112
+      path: /metrics
+      interval: 5s
+...
