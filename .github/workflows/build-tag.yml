@@ -29,7 +29,7 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       -
         name: Build and push GHCR load
-        id: docker_build_ghcr
+        id: docker_build_ghcr_load
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -39,7 +39,7 @@ jobs:
             ghcr.io/${{ github.repository }}/load:${{ env.RELEASE_VERSION }}
       -
         name: Build and push GHCR server
-        id: docker_build_ghcr
+        id: docker_build_ghcr_server
         uses: docker/build-push-action@v2
         with:
           context: .
