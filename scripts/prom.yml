@@ -15,3 +15,8 @@ prometheus:
     ingressClassName: nginx
     hosts:
     - prometheus.l.k8s-lukas.atix-training.de
+  prometheusSpec:
+    podMonitorSelectorNilUsesHelmValues: false
+    probeSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
