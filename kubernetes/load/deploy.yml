@@ -4,11 +4,11 @@ metadata:
   name: load
   namespace: load
   labels:
-    app: caller
+    app: load
 spec:
   selector:
     matchLabels:
-      app: caller
+      app: load
   replicas: 1
   strategy:
     rollingUpdate:
@@ -18,12 +18,10 @@ spec:
   template:
     metadata:
       labels:
-        app:  caller
-      annotations:
-        configHash: ""
+        app: load
     spec:
       containers:
-      - name:  load
+      - name:  caller
         image:  ghcr.io/fluktuid/talk-kit/load:latest
         imagePullPolicy: Always
         resources:
@@ -55,6 +53,7 @@ spec:
         ports:
         - containerPort: 2112
           name:  metrics
+      dnsPolicy: ClusterFirst
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

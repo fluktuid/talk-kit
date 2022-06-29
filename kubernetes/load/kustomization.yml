@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: load
+
+commonLabels:
+  app: load
+
+resources:
+- namespace.yml
+- service.yml
+- config.yml
+- deploy.yml

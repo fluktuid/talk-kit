@@ -3,11 +3,11 @@ kind: Service
 metadata:
   name: load
   labels:
-    app: caller
+    app: load
   namespace: load
 spec:
   selector:
-    app: caller
+    app: load
   type: ClusterIP
   sessionAffinity: None
   ports:
