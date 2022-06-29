@@ -7,14 +7,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: caller
+      app: load
   namespaceSelector:
     matchNames:
       - load
   podMetricsEndpoints:
-    - targetPort: 2112
+    - targetPort: metrics
       path: /metrics
-      interval: 5s
+      interval: 2s
 ---
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
@@ -29,7 +29,7 @@ spec:
     matchNames:
       - server
   podMetricsEndpoints:
-    - targetPort: 2112
+    - targetPort: metrics
       path: /metrics
-      interval: 5s
+      interval: 2s
 ...

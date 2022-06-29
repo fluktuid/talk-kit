@@ -1,4 +1,5 @@
-apiVersion: autoscaling/v2
+---
+apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   name: server
@@ -31,3 +32,38 @@ spec:
       - type: Percent
         value: 12
         periodSeconds: 2
+# ---
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: server
+#   namespace: server
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: server
+#   minReplicas: 1
+#   maxReplicas: 100
+#   metrics:
+#   - type: Pods
+#     pods:
+#       metric:
+#         name: server_requests_per_second
+#       target:
+#         type: AverageValue
+#         averageValue: 16
+#   behavior:
+#     scaleUp:
+#       stabilizationWindowSeconds: 0
+#       policies:
+#       - type: Percent
+#         value: 2250
+#         periodSeconds: 10
+#     scaleDown:
+#       stabilizationWindowSeconds: 2
+#       policies:
+#       - type: Percent
+#         value: 12
+#         periodSeconds: 2
+...

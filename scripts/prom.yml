@@ -5,16 +5,17 @@ grafana:
     enabled: true
     ingressClassName: nginx
     hosts:
-    - grafana.l.k8s-lukas.atix-training.de
+    - grafana.kit.atix-training.de
   sidecar:
     datasources:
       defaultDatasourceScrapeInterval: 1s
+  adminPassword: somesupersecurepass
 prometheus:
   ingress:
-    enabled: true
+    enabled: false
     ingressClassName: nginx
     hosts:
-    - prometheus.l.k8s-lukas.atix-training.de
+    - prometheus.kit.atix-training.de
   prometheusSpec:
     podMonitorSelectorNilUsesHelmValues: false
     probeSelectorNilUsesHelmValues: false
