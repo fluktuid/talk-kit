@@ -1,6 +1,8 @@
 # KIT Lecture
 
-This git contains the materials for the KIT lecture on 30 June 22 (lecture AI-IC).
+This git contains the materials for second part of the AI-IC Lecture on June 30th 22 (KIT).
+
+This lecture observed scaling services in a cluster and scaling clusters in the cloud.
 
 ## Contents
 
@@ -8,7 +10,7 @@ This git contains the materials for the KIT lecture on 30 June 22 (lecture AI-IC
   kubernetes files
 - scripts\
   Scripts for configuring
-- terraform \
+- terraform\
   Scripts for setting up the cluster
 - other folders\
   golang-code for components
@@ -16,21 +18,21 @@ This git contains the materials for the KIT lecture on 30 June 22 (lecture AI-IC
 ## How to use?
 
 1. (optional) Build the images\
-   Run `make build
+   Run `make build`
 
 1. setting up the cluster
-   Run `terraform plan; terradform apply` or `make cluster-create` 1.
+   Run `terraform plan; terradform apply` or `make cluster-create`
 
 1. logging into the cluster
-   Load the Kubeconfig in the Teraform folder or `make cluster-login`. 1.
+   Load the Kubeconfig in the Teraform folder or `make cluster-login`.
 
 1. setting up common services in the cluster\
    Execute the scripts in the `scripts` folder or `make cluster-prepare`.
    The ingress for Grafana/Prometheus may have to be adapted here.
    If the cluster scaler is to be used, the name of the worker group must also be adapted and the fingerprint of the IDP adapted (if it has expired).
-   The worker group can be found in the EC2 GUI under the corresponding menu item. 1.
+   The worker group can be found in the EC2 GUI under the corresponding menu item.
 
-Set the DNS entry on the load balancer of the Nginx-ingress in the cluster. 1.
+1. Set the DNS entry on the load balancer of the Nginx-ingress in the cluster.
 
 1. install the app
    Apply the Kubernetes manifest in the folder `kubernetes` or `make app`.
@@ -41,6 +43,13 @@ Set the DNS entry on the load balancer of the Nginx-ingress in the cluster. 1.
 
 ## Requirements
 
-1. an aws account\
-   a set up `aws` cli-tool will help
-1. `terraform`, `kubectl` and `helm` installed
+- an aws account (for terraform)\
+  a set up `aws` cli-tool will help \
+  You can also use every other kubernetes-cluster, but you need to set-up your own autoscaler. ;)
+- `terraform`, `kubectl` and `helm` installed
+
+
+
+## Special Mentions
+
+- [@rad4day] (https://www.github.com/rad4day)\
