@@ -52,4 +52,4 @@ This lecture observed scaling services in a cluster and scaling clusters in the 
 
 ## Special Mentions
 
-- [@rad4day] (https://www.github.com/rad4day)\
+- [@rad4day](https://www.github.com/rad4day)
