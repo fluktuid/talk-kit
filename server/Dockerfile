@@ -35,10 +35,11 @@ RUN go get -v all
 # get go files
 COPY ${GO_FILES} .
 # Build the binary.
-ARG GOOS=linux
-ARG GOARCH=amd64
+# TARGETOS and TARGETARCH are builtin vars
+ARG TARGETOS
+ARG TARGETARCH
 ARG CGO_ENABLED=0
-RUN GOOS=${GOOS} GOARCH=${GOARCH} CGO_ENABLED=${CGO_ENABLED} go build -ldflags="-w -s" -o /app/main ${GO_MAIN}
+RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} CGO_ENABLED=${CGO_ENABLED} go build -ldflags="-w -s" -o /app/main ${GO_MAIN}
 
 # create tmp folder for use in scratch
 RUN mkdir /my_tmp

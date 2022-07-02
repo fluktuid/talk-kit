@@ -10,7 +10,6 @@ jobs:
     strategy:
       matrix:
         img: [load, server]
-        arch: [amd64, arm, arm64]
         os: [linux]
     runs-on: ubuntu-latest
     steps:
@@ -34,10 +33,8 @@ jobs:
         with:
           file: "${{ matrix.img }}/Dockerfile"
           push: true
-          platforms: ${{ matrix.arch }}
-          build-args: |
-            GOARCH=${{ matrix.arch }}
-            GOOS=${{ matrix.os }}
-            BUILDPLATFORM=linux/amd64
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          build-args:
+            BUILDPLATFORM=${{ matrix.os }}/amd64
           tags: |
             ghcr.io/${{ github.repository }}/${{ matrix.img }}:latest
