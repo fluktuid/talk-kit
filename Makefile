@@ -18,8 +18,7 @@ cluster-create: ## create cluster via terraform
 	terraform apply -auto-approve
 
 cluster-login: ## login to created cluster
-	cd terraform; \
-	aws eks --region $$(terraform output -raw region) update-kubeconfig --name $$(terraform output -raw cluster_name)
+	aws eks --region us-east-2 update-kubeconfig --name autoscale
 
 cluster-destroy: ## destroy cluster via terraform
 	cd terraform; \
@@ -28,7 +27,6 @@ cluster-destroy: ## destroy cluster via terraform
 
 cluster-prepare: ## install basic apps, like network, metrics, ingress-controller, autoscaler, prometheus
 	cd scripts; \
-	./calico.sh; \
 	kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml; \
 	./nginx.sh; \
 	./autoscaler.sh; \
