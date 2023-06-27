@@ -6,6 +6,7 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
       "autoscaling:DescribeAutoScalingGroups",
       "autoscaling:DescribeAutoScalingInstances",
       "autoscaling:DescribeLaunchConfigurations",
+      "autoscaling:DescribeScalingActivities",
       "autoscaling:DescribeTags",
       "ec2:DescribeInstanceTypes",
       "ec2:DescribeLaunchTemplateVersions"
@@ -18,7 +19,8 @@ data "aws_iam_policy_document" "cluster_autoscaler" {
     actions = [
       "autoscaling:SetDesiredCapacity",
       "autoscaling:TerminateInstanceInAutoScalingGroup",
-      "ec2:DescribeInstanceTypes",
+      "ec2:DescribeImages",
+      "ec2:GetInstanceTypesFromInstanceRequirements",
       "eks:DescribeNodegroup"
     ]
     resources = ["*"]
@@ -33,9 +35,6 @@ resource "aws_iam_policy" "cluster_autoscaler" {
   policy = data.aws_iam_policy_document.cluster_autoscaler.json
 }
 
-
-
-
 data "aws_iam_policy_document" "cluster_autoscaler_assume" {
 
   statement {
@@ -43,12 +42,12 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume" {
 
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.default.arn]
+      identifiers = [module.eks.oidc_provider_arn]
     }
 
     condition {
       test     = "StringEquals"
-      variable = "${replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")}:sub"
+      variable = "${replace(module.eks.cluster_oidc_issuer_url, "https://", "")}:sub"
 
       values = [
         "system:serviceaccount:${var.autoscaler_k8s_namespace}:${var.k8s_service_account_name}",
@@ -56,7 +55,7 @@ data "aws_iam_policy_document" "cluster_autoscaler_assume" {
     }
     condition {
       test     = "StringEquals"
-      variable = "${replace(data.aws_eks_cluster.cluster.identity[0].oidc[0].issuer, "https://", "")}:aud"
+      variable = "${replace(module.eks.cluster_oidc_issuer_url, "https://", "")}:aud"
 
       values = [
         "sts.amazonaws.com",
