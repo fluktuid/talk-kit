@@ -4,14 +4,17 @@ variable "region" {
   description = "AWS region"
 }
 
-variable "cluster_dns" {
-  type    = string
-  default = "talk-k8s-autoscaling.example.com"
-}
-
-variable "cluster_name" {
-  type    = string
-  default = "education-eks-autoscaling"
+variable "cluster" {
+  type = map(object({
+    user = list(object({
+      userarn  = string
+      username = string
+      groups   = list(string)
+    }))
+    version       = string
+    capacity_type = string
+  }))
+  default = {}
 }
 
 variable "autoscaler_k8s_namespace" {
@@ -24,7 +27,7 @@ variable "k8s_service_account_name" {
   default = "cluster-autoscaler-aws-cluster-autoscaler"
 }
 
-variable "cluster_identity_oidc_issuer_arn" {
+variable "k8s_url" {
   type    = string
-  default = "none"
+  default = "cluster.example.com"
 }
